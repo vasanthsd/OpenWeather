@@ -9,9 +9,8 @@ export default class Card extends React.Component {
 
     renderDayWeather = function (item) {
         const day = moment(item.dt_txt).format('ddd');
-        const weatherClass = item.clouds.all === 0 ? 'sunny' : 'cloudy';
 
-        return (<div className="day {day}">{day}
+        return (<div key={item.dt} className="day {day}">{day}
             <br /> <span className="sunny"></span> <br />
             <span className="highTemp">max {Math.round(item.main.temp_max - 273.15)}&#176;</span>
             <br />
@@ -19,14 +18,12 @@ export default class Card extends React.Component {
         </div>);
     }
 
-    render() {
+    renderCard = function (city, todayTemp, feeds) {
         const self = this;
-        const { todayWeather } = this.props;
-        const todayTemp = todayWeather.main ? todayWeather.main.temp : 0;
 
         return (
             <div className="card">
-                <span className="city">{this.props.city}</span>
+                <span className="city">{city}</span>
                 <div className="sun"></div>
                 <span className="temp">{Math.round(todayTemp - 273.15)}&#176;</span>
                 <span>
@@ -35,11 +32,22 @@ export default class Card extends React.Component {
                     </ul>
                 </span>
                 <div className="forecast clear">
-                    {this.props.feeds.map(function (feed) {
+                    {feeds.map(function (feed) {
                         return self.renderDayWeather(feed);
                     })}
                 </div>
-            </div>
-        );
+            </div>);
+    }
+
+    render() {
+        const self = this;
+        const { todayWeather } = this.props;
+        const todayTemp = todayWeather.main ? todayWeather.main.temp : 0;
+
+        if (this.props.feeds.length == 0) {
+            return false;
+        }
+
+        return self.renderCard(this.props.city, todayTemp, this.props.feeds);
     }
 }

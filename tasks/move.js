@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const webpack = require('webpack-stream');
 const uglify = require('gulp-uglify');
 
-const { destDir, filesToMove } = require('./start');
+const { destDir, filesToMove } = require('./process');
 const webpackConfig = require('../webpack.prod.config.js');
 
 gulp.task('source', moveFiles(filesToMove.source, `${destDir}/js`, true));

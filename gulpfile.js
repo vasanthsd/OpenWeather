@@ -1,2 +1,2 @@
 require('./tasks/move');
-require('./tasks/start');
+require('./tasks/process');
